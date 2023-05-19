@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  <h1>Editar Usuario</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="nombres">Nombres:</label>
+    <input type="text" id="nombres" name="nombres" value="{{ usuario.nombres }}" required><br>
+
+    <label for="apellidos">Apellidos:</label>
+    <input type="text" id="apellidos" name="apellidos" value="{{ usuario.apellidos }}" required><br>
+
+    <label for="numero_celular">Número Celular:</label>
+    <input type="text" id="numero_celular" name="numero_celular" value="{{ usuario.numero_celular }}" required><br>
+
+    <label for="numero_celular">Número Celular:</label>
+    <input type="text" id="numero_celular" name="numero_celular" value="{{ usuario.numero_celular }}" required><br>
+
+
+    <label for="es_staff">Staff:</label>
+    <input type="checkbox" id="es_staff" name="es_staff" {% if usuario.es_staff %}checked{% endif %}><br>
+
+    <label for="foto">Foto:</label>
+    <input type="file" id="foto" name="foto"><br>
+
+    <input type="submit" value="Guardar">
+  </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  <h1>Listado de Usuarios</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Número Celular</th>
+        <th>Staff</th>
+        <th>Foto</th>
+        
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for usuario in usuarios %}
+        <tr>
+          <td>{{ usuario.nombres }}</td>
+          <td>{{ usuario.apellidos }}</td>
+          <td>{{ usuario.numero_celular }}</td>
+         
+          <td>{{ usuario.es_staff }}</td>
+          <td><img src="{{ usuario.foto.url }}" alt="Foto de {{ usuario.nombres }}">
+            
+          </td>
+          
+          
+          <td>
+            <a href="{% url 'back:editar_usuario' usuario.id %}">Editar</a>
+            <a href="{% url 'back:eliminar_usuario' usuario.id %}">Eliminar</a>
+            
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No hay usuarios registrados</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

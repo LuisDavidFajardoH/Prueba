@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  <h1>Crear Usuario</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Campos del formulario -->
+    <div>
+      <label for="nombres">Nombres:</label>
+      <input type="text" name="nombres" id="nombres">
+    </div>
+    <div>
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" name="apellidos" id="apellidos">
+    </div>
+    <div>
+      <label for="numero_celular">Número Celular:</label>
+      <input type="text" name="numero_celular" id="numero_celular">
+    </div>
+    <div>
+      <label for="es_staff">Staff:</label>
+      <input type="checkbox" name="es_staff" id="es_staff">
+    </div>
+    <div>
+      <label for="foto">Foto:</label>
+      <input type="file" name="foto" id="foto">
+    </div>
+    <input type="submit" value="Guardar">
+  </form>
+  <a href="{% url 'back:listar_usuarios' %}">Volver al listado de usuarios</a>
+{% endblock %}
+
