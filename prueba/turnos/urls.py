@@ -15,4 +15,5 @@ urlpatterns = [
     path('crear_turno/', views.crear_turno, name='crear_turno'),
     path('editar_turno/<int:id>/', views.editar_turno, name='editar_turno'),
     path('eliminar_turno/<int:id>/', views.eliminar_turno, name='eliminar_turno'),
+    path('turno/<int:id>/', views.detalle_turno, name='detalle_turno'),
 ]

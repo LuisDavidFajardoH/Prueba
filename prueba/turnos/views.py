@@ -26,15 +26,21 @@ def listar_turnos(request):
     turnos = Turno.objects.all()
     return render(request, 'turnos/listar_turnos.html', {'turnos': turnos})
 
+
+
+from django.contrib import messages
+
 def crear_turno(request):
     if request.method == 'POST':
         form = TurnoForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, '¡El turno se ha creado correctamente!')
             return redirect('turnos:listar_turnos')
     else:
         form = TurnoForm()
     return render(request, 'turnos/crear_turno.html', {'form': form})
+
 
 def editar_turno(request, id):
     turno = get_object_or_404(Turno, id=id)
@@ -53,3 +59,8 @@ def eliminar_turno(request, id):
         turno.delete()
         return redirect('turnos:listar_turnos')
     return render(request, 'turnos/eliminar_turno.html', {'turno': turno})
+
+
+def detalle_turno(request, id):
+    turno = get_object_or_404(Turno, id=id)
+    return render(request, 'turnos/detalle_turno.html', {'turno': turno})
