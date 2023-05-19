@@ -1,19 +1,13 @@
 from django.urls import path
 from . import views
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Turno
-from .forms import TurnoForm
-
-# Resto del código de las vistas...
-
 
 app_name = 'turnos'
 
 urlpatterns = [
-    path('', views.index, name='index'), 
-    path('listar_turnos/', views.listar_turnos, name='listar_turnos'),
-    path('crear_turno/', views.crear_turno, name='crear_turno'),
-    path('editar_turno/<int:id>/', views.editar_turno, name='editar_turno'),
-    path('eliminar_turno/<int:id>/', views.eliminar_turno, name='eliminar_turno'),
-    path('turno/<int:id>/', views.detalle_turno, name='detalle_turno'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('listar/', views.ListarTurnosView.as_view(), name='listar_turnos'),
+    path('crear/', views.CrearTurnoView.as_view(), name='crear_turno'),
+    path('editar/<int:pk>/', views.EditarTurnoView.as_view(), name='editar_turno'),
+    path('eliminar/<int:pk>/', views.EliminarTurnoView.as_view(), name='eliminar_turno'),
+    path('detalle/<int:pk>/', views.DetalleTurnoView.as_view(), name='detalle_turno'),
 ]

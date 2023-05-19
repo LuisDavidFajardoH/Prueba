@@ -1,66 +1,68 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views import generic
+from django.contrib import messages
+from django.urls import reverse_lazy
+
 from .models import Turno
 from .forms import TurnoForm
 from back.models import Usuario
 
-def index(request):
-    if request.method == 'POST':
+
+class IndexView(generic.View):
+    def get(self, request):
+        form = TurnoForm()
+        usuarios = Usuario.objects.all()
+        context = {
+            'usuarios': usuarios,
+            'form': form
+        }
+        return render(request, 'prueba/index.html', context)
+
+    def post(self, request):
         form = TurnoForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('turnos:listar_turnos')
-    else:
-        form = TurnoForm()
 
-    usuarios = Usuario.objects.all()
-    print(usuarios) 
-    context = {
-        'usuarios': usuarios,
-        'form': form
-    }
-
-    return render(request, 'prueba/index.html', context)
+        usuarios = Usuario.objects.all()
+        context = {
+            'usuarios': usuarios,
+            'form': form
+        }
+        return render(request, 'prueba/index.html', context)
 
 
-def listar_turnos(request):
-    turnos = Turno.objects.all()
-    return render(request, 'turnos/listar_turnos.html', {'turnos': turnos})
+class ListarTurnosView(generic.ListView):
+    model = Turno
+    template_name = 'turnos/listar_turnos.html'
+    context_object_name = 'turnos'
 
 
+class CrearTurnoView(generic.CreateView):
+    model = Turno
+    form_class = TurnoForm
+    template_name = 'turnos/crear_turno.html'
+    success_url = reverse_lazy('turnos:listar_turnos')
 
-from django.contrib import messages
-
-def crear_turno(request):
-    if request.method == 'POST':
-        form = TurnoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, '¡El turno se ha creado correctamente!')
-            return redirect('turnos:listar_turnos')
-    else:
-        form = TurnoForm()
-    return render(request, 'turnos/crear_turno.html', {'form': form})
+    def form_valid(self, form):
+        messages.success(self.request, '¡El turno se ha creado correctamente!')
+        return super().form_valid(form)
 
 
-def editar_turno(request, id):
-    turno = get_object_or_404(Turno, id=id)
-    if request.method == 'POST':
-        form = TurnoForm(request.POST, instance=turno)
-        if form.is_valid():
-            form.save()
-            return redirect('turnos:listar_turnos')
-    else:
-        form = TurnoForm(instance=turno)
-    return render(request, 'turnos/editar_turno.html', {'form': form, 'turno': turno})
-
-def eliminar_turno(request, id):
-    turno = get_object_or_404(Turno, id=id)
-    if request.method == 'POST':
-        turno.delete()
-        return redirect('turnos:listar_turnos')
-    return render(request, 'turnos/eliminar_turno.html', {'turno': turno})
+class EditarTurnoView(generic.UpdateView):
+    model = Turno
+    form_class = TurnoForm
+    template_name = 'turnos/editar_turno.html'
+    success_url = reverse_lazy('turnos:listar_turnos')
 
 
-def detalle_turno(request, id):
-    turno = get_object_or_404(Turno, id=id)
-    return render(request, 'turnos/detalle_turno.html', {'turno': turno})
+class EliminarTurnoView(generic.DeleteView):
+    model = Turno
+    template_name = 'turnos/eliminar_turno.html'
+    success_url = reverse_lazy('turnos:listar_turnos')
+
+
+class DetalleTurnoView(generic.DetailView):
+    model = Turno
+    template_name = 'turnos/detalle_turno.html'
+    context_object_name = 'turno'
