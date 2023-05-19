@@ -1,6 +1,8 @@
 import os
 import django
 
+#Archivo que use para hacer pruebas de subida
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "prueba.settings")
 django.setup()
 

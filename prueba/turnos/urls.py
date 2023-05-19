@@ -10,7 +10,7 @@ from .forms import TurnoForm
 app_name = 'turnos'
 
 urlpatterns = [
-    path('', views.index, name='index'),  # Ruta base para /turnos/
+    path('', views.index, name='index'), 
     path('listar_turnos/', views.listar_turnos, name='listar_turnos'),
     path('crear_turno/', views.crear_turno, name='crear_turno'),
     path('editar_turno/<int:id>/', views.editar_turno, name='editar_turno'),
